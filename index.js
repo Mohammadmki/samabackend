@@ -27,7 +27,6 @@ return res.status(404).json({
         })
     })
 
-       await sequelize.sync({ alter: true });
     console.log("✅ All tables dropped and re-created");
 
 

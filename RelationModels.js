@@ -6,7 +6,7 @@ const Student = require("./src/modules/studendts/student.model");
 const User = require("./src/modules/user/user.model");
 
 // ===== School ↔ Student =====
-School.hasMany(Student, { foreignKey: "school_id", onDelete: "CASCADE" });
+School.hasMany(Student, { foreignKey: "school_id", onDelete: "SET NULL" });
 Student.belongsTo(School, { foreignKey: "school_id" });
 
 // ===== Student ↔ Payment =====

@@ -11,7 +11,7 @@ const sequelize = new Sequelize({
     username:process.env.DB_USERNAME,
     password:process.env.DB_PASSWORD
 })
-sequelize.sync({alter:true})
+sequelize.sync()
 
 sequelize.authenticate().then(()=>{
     console.log("connected to database")
