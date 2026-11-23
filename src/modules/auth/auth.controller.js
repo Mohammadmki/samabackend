@@ -29,15 +29,13 @@ this.#service=authService
     async checkOtp(req, res,next) {
         try {
             const { phone, otp } = req.body
-            const token = await this.#service.checkOtp(phone, otp)
-           res.cookie("accesstoken", token, {
-                httpOnly: false,
-                signed: true,
-                maxAge: 365*24*60*60*1000
+            const resualt = await this.#service.checkOtp(phone, otp)
+        return res.status(200).json({
+                message:"ورود با موفقیت انجام شد",
+                user:resualt.user,
+                token:resualt.token
             })
-            return res.status(200).json({
-                message: "شما با موفقیت وارد شدید",
-            })
+         
         }catch (error) {
             next(error)
         }

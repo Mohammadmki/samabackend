@@ -12,5 +12,7 @@ ScoolRouter.delete('/delete/:id',schoolController.deletescool)
 
 ScoolRouter.get("/:id",schoolController.findScool)
 
+ScoolRouter.get('/',schoolController.getschools)
+
 
 module.exports=ScoolRouter

@@ -17,9 +17,9 @@ class ScoolController{
 
             console.log('USR IS=>',user)
 
-            const {name,address,lat,lng,management_name,education_level,shift}=req.body
+            const {to_grade,from_grade,name,address,lat,lng,management_name,education_level,shift}=req.body
 
-            const resualt= await this.#service.addscool({user,name,address,shift,lat,lng,management_name,education_level})
+            const resualt= await this.#service.addscool({to_grade,from_grade,user,name,address,shift,lat,lng,management_name,education_level})
 
             res.status(200).json({
                 messsage:"مدرسه با موفقیت افزوده شد"
@@ -86,6 +86,22 @@ class ScoolController{
         } catch (error) {
             next(error)
             
+        }
+    }
+    async getschools(req,res,next){
+        try {
+            const query=req.query
+
+            const user=req.user
+
+            const schools=await this.#service.getSchools(query,user)
+
+          res.status(200).json({
+            schools
+          })
+
+        } catch (error) {
+            next(error)
         }
     }
 }

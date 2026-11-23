@@ -2,14 +2,19 @@ const { body } = require("express-validator");
 const { handleValidationErrors } = require("./validator.middlevare");
 
 const StudentValidator=[
-      body("first_name")
+
+      body("full_name")
       .notEmpty().withMessage("نام الزامی است")
-      .isLength({ min: 2 }).withMessage("نام باید حداقل 2 حرف باشد"),
+      .matches(/^[آ-ی\s]+$/)
+      .withMessage("نام باید فقط شامل حروف فارسی باشد")
+      .isLength({ min: 5 }).withMessage("نام باید حداقل 5 حرف باشد"),
 
-    body("last_name")
-      .notEmpty().withMessage("نام خانوادگی الزامی است")
-      .isLength({ min: 2 }).withMessage("نام خانوادگی باید حداقل 2 حرف باشد"),
-
+      
+      body("guardian_fullname")
+    .notEmpty().withMessage("نام ولی الزامی است")
+    .matches(/^[آ-ی\s]+$/) 
+    .isLength({ min: 5 }).withMessage("نام باید حداقل 5 حرف باشد"),
+      
     body("address")
       .notEmpty().withMessage("آدرس الزامی است"),
 
@@ -21,13 +26,17 @@ const StudentValidator=[
       .notEmpty().withMessage("طول جغرافیایی الزامی است")
       .isFloat({ min: -180, max: 180 }).withMessage("طول جغرافیایی معتبر نیست"),
 
+         body("guardian_nationalcode")
+      .notEmpty().withMessage("کد ملی ولی الزامی است")
+      .isLength({ min: 10, max: 10 }).withMessage("کد ملی باید 10 رقم باشد"),
+
+
     body("nationalcode")
       .notEmpty().withMessage("کد ملی الزامی است")
       .isLength({ min: 10, max: 10 }).withMessage("کد ملی باید 10 رقم باشد"),
 
     body("birthdate")
-      .notEmpty().withMessage("تاریخ تولد الزامی است")
-      .isDate().withMessage("تاریخ تولد معتبر نیست"),
+      .notEmpty().withMessage("تاریخ تولد الزامی است"),
 
     body("father_phone")
       .notEmpty().withMessage("شماره پدر الزامی است")
@@ -38,9 +47,11 @@ const StudentValidator=[
       .isMobilePhone("fa-IR").withMessage("شماره مادر معتبر نیست"),
 
     body("school_id")
-      .notEmpty().withMessage("شناسه مدرسه الزامی است")
-      .isInt().withMessage("شناسه مدرسه باید عدد باشد"),
-
+      .notEmpty().withMessage("شناسه مدرسه الزامی است"),
+         
+    body("grade").isIn(["Preschool","1","2","3","4","5","6","7","8","9","10","11","12"]).withMessage(" پایه تحصیلی باید از این موارد باشد"),
+    
+    body("school_shift").isIn(['morning',"afternoon"]).withMessage("شیفت مدرسه باید از این موارد باشد"),
 
       handleValidationErrors
 ]

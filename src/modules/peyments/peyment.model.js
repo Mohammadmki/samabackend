@@ -14,7 +14,7 @@ const Peyment=sequelize.define("peyment",{
         allowNull:false
     },
     amount:{
-        type:DataTypes.INTEGER,
+      type:DataTypes.INTEGER,
         allowNull:false
     },
     description:{
@@ -22,23 +22,35 @@ const Peyment=sequelize.define("peyment",{
         allowNull:true
     },
     status:{
-        type:DataTypes.ENUM("pending","paid","failed"),
-        defaultValue:"pending"
+        type:DataTypes.ENUM(  "pending", "failed", "deleted","driver","card_to_card","gateway"  ),
+        defaultValue:"pending",
+        allowNull:false
     },
-    origin:{
-         type:DataTypes.JSON,
-            allowNull:false,
-        },
-        destination:{
-            type:DataTypes.JSON,
-            allowNull:false,
-        },
-        student_id:{
-            type:DataTypes.INTEGER,
-              allowNull:false
-        }
+
+    student_id:{
+     type:DataTypes.INTEGER,
+     allowNull:false
+    },
+        traffic_percent: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    defaultValue: 0
+},
+authority: {
+  type: DataTypes.STRING(100),
+  allowNull: true,
+  unique: true,
+},
+ref_id: {
+  type: DataTypes.STRING(50),
+  allowNull: true,
+},
+paid_at: {
+  type: DataTypes.DATE,
+  allowNull: true,
+},
     
-})
+},{timestamps:true})
 
 
 module.exports=Peyment;

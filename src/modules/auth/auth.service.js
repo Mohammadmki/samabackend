@@ -20,13 +20,15 @@ class AuthService {
          if(user.expired_code>Date.now()){
             throw new createHttpError.BadRequest("کد قبلی منقضی نشده است")
          }
-            const otp = Math.floor(Math.random() * 100000)
+            const otp = 11111
+            //Math.floor(Math.random() * 100000)
             user.otp_code=otp;
             user.expired_code=Date.now()+(2*60*1000)
             await user.save()
          return otp
         }else{
-            const otp = Math.floor(Math.random() * 100000)
+            const otp =11111
+            // Math.floor(Math.random() * 100000)
             const newUser=await this.#model.create({
                 phone,
                 otp_code:otp,
@@ -52,9 +54,13 @@ class AuthService {
             throw new createHttpError.BadRequest("کد منقضی شده است")
         }
         user.verified=true;
-        const token=jwt.sign({id:user.id,mobile:user.mobile,role:user.role},process.env.JWT_SECRET_KEY,{expiresIn:"1y"})
+        const token=jwt.sign({
+            id:user.id,
+            phone:user.phone,
+        },process.env.JWT_SECRET_KEY,{expiresIn:"1y"})
         await user.save()
-        return token
+        user.reload()
+        return {token,user}
     }
 
     async logout() {

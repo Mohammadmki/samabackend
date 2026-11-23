@@ -14,4 +14,10 @@ DeriverRoute.delete("/delete/:id",DeriverController.deleteDriver)
 
 DeriverRoute.put("/update/:id",DeriverValidator,DeriverController.updateDriver)
 
+DeriverRoute.put("/:id/active",DeriverController.activeDeriver)
+
+DeriverRoute.get("/:id/students",DeriverController.getStudentsDeriver)
+
+DeriverRoute.get("/",DeriverController.getDerivers)
+
 module.exports=DeriverRoute

@@ -16,11 +16,11 @@ const School=sequelize.define("school",{
         allowNull:false
     },
     lat:{
-        type:DataTypes.DECIMAL,
+         type: DataTypes.DECIMAL(10,8),
         allowNull:false
     },
     lng:{
-        type:DataTypes.DECIMAL,
+         type: DataTypes.DECIMAL(11,8),
         allowNull:false
     },
     management_name:{
@@ -31,17 +31,26 @@ education_level: {
   type: DataTypes.ENUM(
     'primary',          // ابتدایی
     'middle_school',    // متوسطه اول
-    'high_school'       // متوسطه دوم
-  ),
+    'high_school',      // متوسطه دوم
+'Preschool' //پیش دبستانی
+),
   allowNull: false
 },
 shift: {
-  type: DataTypes.ENUM('morning', 'morning_evening'),
+  type: DataTypes.ENUM('morning', 'morning_evening','afternoon'),
   allowNull: false,
   defaultValue: 'morning'
-}
+},
+from_grade:{
+    type:DataTypes.ENUM("Preschool","1","2","3","4","5","6","7","8","9","10","11","12"),
+    allowNull:false
+},
+to_grade:{
+    type:DataTypes.ENUM("Preschool","1","2","3","4","5","6","7","8","9","10","11","12"),
+    allowNull:false
+},
 
-})
+},{timestamps:false})
 
 
 module.exports=School;

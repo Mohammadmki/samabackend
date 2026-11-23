@@ -1,41 +1,53 @@
 const express = require("express");
-const sequelize = require("./src/config/sequelize.config");
 const { config } = require("dotenv");
+config(); // قبل از require کردن کانفیگ، تا .env خونده شده باشه
+
+const sequelize = require("./src/config/sequelize.config");
+require("./RelationModels"); // ← مسیر فایل ریلیشن‌هات. حتماً قبل از sync
 const mainRouter = require("./index.router");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
-config()
 async function main() {
+  const app = express();
 
-    const app=express();
-app.use(express.json())
-app.use(express.urlencoded({extended:true}))
-app.use(cookieParser(process.env.COOKIE_PARSER_SECRET_KEY))
-  app.use(mainRouter)
-    app.use((req,res,next)=>{
-return res.status(404).json({
-    message:"not found route"
-})
-    })
-    app.use((err,req,res,next)=>{
-        console.log("error is =>",err)
-        const status=err?.status??500;
-        const message=err?.message??"interval server"
-        return res.status(status).json({
-            message,
-            status
-        })
-    })
+  const corsOptions = {
+    origin: "http://localhost:3001",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  };
 
-    console.log("✅ All tables dropped and re-created");
+  app.use(cors(corsOptions));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+  app.use(cookieParser(process.env.COOKIE_PARSER_SECRET_KEY));
+  app.use(express.static("public"));
 
+  app.use(mainRouter);
 
-    app.listen(process.env.PORT,()=>{
-     console.log(`srever: http://localhost:${process.env.PORT}`)
-})
+  app.use((req, res, next) => {
+    return res.status(404).json({ message: "not found route" });
+  });
 
+  app.use((err, req, res, next) => {
+    console.log("error is =>", err);
+    const status = err?.status ?? 500;
+    const message = err?.message ?? "internal server error";
+    return res.status(status).json({ message, status });
+  });
+
+  try {
+    await sequelize.sync({ alter: true });
+    console.log("✅ Database synced");
+  } catch (err) {
+    console.log("❌ sync error =>", err.message);
+    process.exit(1);
+  }
+
+  app.listen(process.env.PORT, () => {
+    console.log(`server: http://localhost:${process.env.PORT}`);
+  });
 }
-
-
 
 main();

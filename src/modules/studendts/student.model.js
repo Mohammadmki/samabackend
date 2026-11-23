@@ -7,24 +7,21 @@ const Student=sequelize.define("student",{
         primaryKey:true,
     autoIncrement:true
     },
-    first_name:{
+    full_name:{
         type:DataTypes.STRING,
         allowNull:false
     },
-    last_name:{
-        type:DataTypes.STRING,
-        allowNull:false
-    },
+  
     address:{
         type:DataTypes.STRING,
         allowNull:false
     },
     lat:{
-        type:DataTypes.DECIMAL,
+         type: DataTypes.DECIMAL(10,8),
         allowNull:false
     },
     lng:{
-        type:DataTypes.DECIMAL,
+         type: DataTypes.DECIMAL(11,8),
         allowNull:false
     },
     nationalcode:{
@@ -42,10 +39,30 @@ const Student=sequelize.define("student",{
     },
     school_id:{
         type:DataTypes.INTEGER,
-        allowNull:false,
+        allowNull:true,
+    },
+    school_shift:{
+        type:DataTypes.ENUM("morning",'afternoon'),
+        allowNull:true
+    },
+    guardian_fullname:{
+type:DataTypes.STRING,
+allowNull:false
+    },
+    guardian_nationalcode:{
+      type:DataTypes.STRING,
+      allowNull:false  
+    },
+    grade:{
+        type:DataTypes.ENUM("Preschool","1","2","3","4","5","6","7","8","9","10","11","12"),
+   allowNull:false
+    },
+    school_name:{
+        type:DataTypes.STRING,
+          allowNull:true
     },
     birthdate:{
-        type:DataTypes.DATE,
+        type:DataTypes.DATEONLY,
         allowNull:false
     },
     father_phone:{
@@ -57,8 +74,8 @@ const Student=sequelize.define("student",{
         allowNull:false
     }, 
     
-    register_step:{
-        type:DataTypes.ENUM('info_completed',"contract_signed","prepaid_done"),
+    status:{
+        type:DataTypes.ENUM('info_completed',"contract_signed","prepaid_done",'deleted','compelete'),
         allowNull:false,
         defaultValue:"info_completed"
     },
@@ -66,8 +83,13 @@ const Student=sequelize.define("student",{
         type:DataTypes.BOOLEAN,
         allowNull:false,
         defaultValue:false
+    },
+    last_payment_status:{
+      type:DataTypes.ENUM("nopay","pending", "failed", "deleted","driver","card_to_card","gateway"),
+      allowNull:false,
+      defaultValue:"nopay"
+
     }
-     
 })
 
 

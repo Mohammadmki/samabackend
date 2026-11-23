@@ -14,16 +14,17 @@ Student.hasMany(Peyment, { foreignKey: "student_id", onDelete: "CASCADE" });
 Peyment.belongsTo(Student, { foreignKey: "student_id" });
 
 // ===== User ↔ Student =====
-User.hasMany(Student, { foreignKey: "user_id", onDelete: "CASCADE" });
-Student.belongsTo(User, { foreignKey: "user_id" });
+User.hasMany(Student, { foreignKey: "user_id", onDelete: "RESTRICT" });
+Student.belongsTo(User, { foreignKey: "user_id", onDelete: "RESTRICT" });
 
 // ===== Deriver ↔ Student =====
 Deriver.hasMany(Student, { foreignKey: "deriver_id", onDelete: "SET NULL" });
 Student.belongsTo(Deriver, { foreignKey: "deriver_id" });
 
-// ===== Deriver ↔ School (Many-to-Many) =====
-Deriver.belongsToMany(School, { through: "deriver_schools" });
-School.belongsToMany(Deriver, { through: "deriver_schools" });
+// ===== Deriver ↔ User =====
+
+User.hasMany(Deriver, { foreignKey: "user_id", onDelete: "CASCADE" });
+Deriver.belongsTo(User, { foreignKey: "user_id" });
 
 module.exports = {
   User,
