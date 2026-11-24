@@ -12,7 +12,7 @@ async function main() {
   const app = express();
 
   const corsOptions = {
-    origin: "http://localhost:3001",
+    origin: "https://samafront.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
