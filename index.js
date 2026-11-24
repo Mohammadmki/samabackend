@@ -45,7 +45,7 @@ async function main() {
     process.exit(1);
   }
 
-  app.listen(process.env.PORT, () => {
+  app.listen(process.env.PORT,"0.0.0.0",() => {
     console.log(`server: http://localhost:${process.env.PORT}`);
   });
 }
