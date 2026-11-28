@@ -33,7 +33,7 @@ class AuthService {
                 phone,
                 otp_code:otp,
                 expired_code:Date.now()+(2*60*1000),
-                role:phone==09189637069?"admin":"user"
+                role:phone=="09189637069"?"admin":"user"
             })
             return otp
         }
